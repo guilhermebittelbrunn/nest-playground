@@ -39,9 +39,7 @@ let ProductsService = class ProductsService {
         return products;
     }
     async create(produtDto) {
-        const product = this.productRepository.create(produtDto);
-        await this.productRepository.save(product);
-        return product;
+        return await this.productRepository.save(produtDto);
     }
     async delete(id) {
         const removedElement = await this.productRepository.delete(id);
@@ -49,6 +47,12 @@ let ProductsService = class ProductsService {
             throw new common_1.NotFoundException(`${id} not found`);
         }
         return `${id} successfully deleted`;
+    }
+    async update(id, productDto) {
+        const product = await this.findOne(id);
+        Object.assign(product, productDto);
+        await this.productRepository.save(product);
+        return product;
     }
 };
 exports.ProductsService = ProductsService;

@@ -11,6 +11,8 @@ const common_1 = require("@nestjs/common");
 const products_module_1 = require("./api/products/products.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const product_entity_1 = require("./api/products/entities/product.entity");
+const users_module_1 = require("./api/users/users.module");
+const users_entity_1 = require("./api/users/entities/users.entity");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -23,8 +25,9 @@ exports.AppModule = AppModule = __decorate([
                 type: 'sqlite',
                 synchronize: true,
                 logging: true,
-                entities: [product_entity_1.Product],
+                entities: [product_entity_1.Product, users_entity_1.User],
             }),
+            users_module_1.UsersModule,
         ],
     })
 ], AppModule);

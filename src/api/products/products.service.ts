@@ -38,9 +38,7 @@ export class ProductsService {
   }
 
   async create(produtDto: CreateProduct): Promise<Product> {
-    const product = this.productRepository.create(produtDto);
-    await this.productRepository.save(product);
-    return product;
+    return await this.productRepository.save(produtDto);
   }
 
   async delete(id: string): Promise<string> {
@@ -49,5 +47,12 @@ export class ProductsService {
       throw new NotFoundException(`${id} not found`);
     }
     return `${id} successfully deleted`;
+  }
+
+  async update(id: string, productDto): Promise<Product> {
+    const product = await this.findOne(id);
+    Object.assign(product, productDto);
+    await this.productRepository.save(product);
+    return product;
   }
 }

@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Product = void 0;
 const typeorm_1 = require("typeorm");
-const product_model_1 = require("../interfaces/product.model");
+const product_enum_1 = require("../enums/product.enum");
 let Product = class Product {
 };
 exports.Product = Product;
@@ -32,7 +32,7 @@ __decorate([
     __metadata("design:type", Number)
 ], Product.prototype, "price", void 0);
 __decorate([
-    (0, typeorm_1.Column)({ default: product_model_1.ProductStatus.ACTIVE }),
+    (0, typeorm_1.Column)({ default: product_enum_1.ProductStatus.ACTIVE }),
     __metadata("design:type", String)
 ], Product.prototype, "status", void 0);
 exports.Product = Product = __decorate([

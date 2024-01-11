@@ -1,4 +1,4 @@
-import { ProductStatus } from '../interfaces/product.model';
+import { ProductStatus } from '../enums/product.enum';
 export declare class Product {
     id: string;
     title: string;

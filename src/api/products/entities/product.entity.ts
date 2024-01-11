@@ -1,5 +1,5 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-import { ProductStatus } from '../interfaces/product.model';
+import { ProductStatus } from '../enums/product.enum';
 
 @Entity('products')
 export class Product {

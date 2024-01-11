@@ -6,4 +6,4 @@ var ProductStatus;
     ProductStatus["ACTIVE"] = "active";
     ProductStatus["INACTIVE"] = "inactive";
 })(ProductStatus || (exports.ProductStatus = ProductStatus = {}));
-//# sourceMappingURL=product.model.js.map
+//# sourceMappingURL=product.enum.js.map

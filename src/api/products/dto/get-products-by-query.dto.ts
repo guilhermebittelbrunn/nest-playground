@@ -1,5 +1,5 @@
 import { IsOptional } from 'class-validator';
-import { ProductStatus } from '../interfaces/product.model';
+import { ProductStatus } from '../enums/product.enum';
 
 export class GetProductsByQuery {
   @IsOptional()

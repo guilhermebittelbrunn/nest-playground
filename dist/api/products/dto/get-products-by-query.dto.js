@@ -11,7 +11,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.GetProductsByQuery = void 0;
 const class_validator_1 = require("class-validator");
-const product_model_1 = require("../interfaces/product.model");
+const product_enum_1 = require("../enums/product.enum");
 class GetProductsByQuery {
 }
 exports.GetProductsByQuery = GetProductsByQuery;

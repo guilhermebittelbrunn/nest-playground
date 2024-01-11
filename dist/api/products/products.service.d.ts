@@ -10,4 +10,5 @@ export declare class ProductsService {
     findByQuery(productQueryDto: GetProductsByQuery): Promise<Product[]>;
     create(produtDto: CreateProduct): Promise<Product>;
     delete(id: string): Promise<string>;
+    update(id: string, productDto: any): Promise<Product>;
 }
