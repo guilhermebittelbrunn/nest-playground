@@ -12,19 +12,17 @@ import { CreateUser } from './dto/create-user.dto';
 import { LoginUser } from './dto/login-user.dto';
 import { UpdateUser } from './dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
-import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectRepository(User) private userRepository: Repository<User>,
-    private configService: ConfigService,
     private jwtService: JwtService,
   ) {}
 
   async findOne(id: string): Promise<Partial<User>> {
-    const user = await this.userRepository.findOne({ where: { id: id } });
+    const user: User = await this.userRepository.findOne({ where: { id: id } });
     const { password, ...userData } = user;
     if (!user) {
       throw new NotFoundException(`User ${id} not found`);
@@ -49,11 +47,11 @@ export class UsersService {
 
   async login(userDto: LoginUser): Promise<{ token: string }> {
     const { email, password } = userDto;
-    const user = await this.userRepository.findOneBy({ email });
+    const user: User = await this.userRepository.findOneBy({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       const { id } = user;
-      const token = await this.jwtService.sign({ id });
+      const token = this.jwtService.sign({ id });
       return { token };
     }
 
@@ -62,7 +60,7 @@ export class UsersService {
 
   async update(token: string, userDto: UpdateUser): Promise<Partial<User>> {
     const idUser = JSON.parse(atob(token.split('.')[1])).id;
-    const user = await this.userRepository.findOne(idUser);
+    const user: User = await this.userRepository.findOne(idUser);
     Object.assign(user, userDto);
     this.userRepository.save(user);
     const { password, ...userData } = user;

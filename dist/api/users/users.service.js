@@ -18,12 +18,10 @@ const typeorm_1 = require("@nestjs/typeorm");
 const users_entity_1 = require("./entities/users.entity");
 const typeorm_2 = require("typeorm");
 const bcrypt = require("bcrypt");
-const config_1 = require("@nestjs/config");
 const jwt_1 = require("@nestjs/jwt");
 let UsersService = class UsersService {
-    constructor(userRepository, configService, jwtService) {
+    constructor(userRepository, jwtService) {
         this.userRepository = userRepository;
-        this.configService = configService;
         this.jwtService = jwtService;
     }
     async findOne(id) {
@@ -54,7 +52,7 @@ let UsersService = class UsersService {
         const user = await this.userRepository.findOneBy({ email });
         if (user && (await bcrypt.compare(password, user.password))) {
             const { id } = user;
-            const token = await this.jwtService.sign({ id });
+            const token = this.jwtService.sign({ id });
             return { token };
         }
         throw new common_1.BadRequestException(`Email or password incorrect`);
@@ -80,7 +78,6 @@ exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(users_entity_1.User)),
     __metadata("design:paramtypes", [typeorm_2.Repository,
-        config_1.ConfigService,
         jwt_1.JwtService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

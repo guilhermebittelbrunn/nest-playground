@@ -32,7 +32,7 @@ export class ProductsService {
   }
 
   async findOne(id: string): Promise<Product> {
-    const product = await this.productRepository.findOne({
+    const product: Product = await this.productRepository.findOne({
       where: { id },
     });
 
@@ -56,11 +56,9 @@ export class ProductsService {
   }
 
   async update(id: string, productDto: UpdateProduct): Promise<Product> {
-    const product = await this.findOne(id);
+    const product: Product = await this.findOne(id);
     Object.assign(product, productDto);
     const savedProduct = await this.productRepository.save(product);
-    console.log('product', product);
-    console.log('saved product', savedProduct);
     return savedProduct;
   }
 }
