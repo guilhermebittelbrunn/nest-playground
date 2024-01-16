@@ -6,8 +6,11 @@ import { UpdateUser } from './dto/update-user.dto';
 export declare class UsersController {
     private userService;
     constructor(userService: UsersService);
-    findOne(id: string): Promise<User>;
+    findOne(id: string): Promise<Partial<User>>;
     create(userDto: CreateUser): Promise<string>;
-    login(userDto: LoginUser): Promise<string>;
-    update(token: string, userDto: UpdateUser): Promise<string>;
+    login(userDto: LoginUser): Promise<{
+        token: string;
+    }>;
+    update(token: string, userDto: UpdateUser): Promise<Partial<User>>;
+    delete(id: string): Promise<string>;
 }

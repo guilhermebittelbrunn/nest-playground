@@ -13,13 +13,18 @@ const typeorm_1 = require("@nestjs/typeorm");
 const product_entity_1 = require("./api/products/entities/product.entity");
 const users_module_1 = require("./api/users/users.module");
 const users_entity_1 = require("./api/users/entities/users.entity");
+const orders_module_1 = require("./api/orders/orders.module");
+const config_1 = require("@nestjs/config");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            products_module_1.ProductsModule,
+            config_1.ConfigModule.forRoot({
+                envFilePath: '.env',
+                isGlobal: true,
+            }),
             typeorm_1.TypeOrmModule.forRoot({
                 database: './database.sqlite',
                 type: 'sqlite',
@@ -27,7 +32,9 @@ exports.AppModule = AppModule = __decorate([
                 logging: true,
                 entities: [product_entity_1.Product, users_entity_1.User],
             }),
+            products_module_1.ProductsModule,
             users_module_1.UsersModule,
+            orders_module_1.OrdersModule,
         ],
     })
 ], AppModule);

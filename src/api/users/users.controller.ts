@@ -1,11 +1,13 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Headers,
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { User } from './entities/users.entity';
@@ -18,7 +20,7 @@ export class UsersController {
   constructor(private userService: UsersService) {}
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<User> {
+  findOne(@Param('id') id: string): Promise<Partial<User>> {
     return this.userService.findOne(id);
   }
 
@@ -28,7 +30,7 @@ export class UsersController {
   }
 
   @Post('signin')
-  login(@Body() userDto: LoginUser): Promise<string> {
+  login(@Body() userDto: LoginUser): Promise<{ token: string }> {
     return this.userService.login(userDto);
   }
 
@@ -36,7 +38,12 @@ export class UsersController {
   update(
     @Headers('token') token: string,
     @Body() userDto: UpdateUser,
-  ): Promise<string> {
+  ): Promise<Partial<User>> {
     return this.userService.update(token, userDto);
+  }
+
+  @Delete()
+  delete(@Param('id') id: string): Promise<string> {
+    return this.userService.delete(id);
   }
 }

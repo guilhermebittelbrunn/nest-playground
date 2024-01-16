@@ -23,10 +23,7 @@ let ProductsController = class ProductsController {
         this.productService = productService;
     }
     findAll(productQueryDto) {
-        if (Object.keys(productQueryDto).length > 0) {
-            return this.productService.findByQuery(productQueryDto);
-        }
-        return this.productService.findAll();
+        return this.productService.findAll(productQueryDto);
     }
     findOne(id) {
         return this.productService.findOne(id);

@@ -34,6 +34,9 @@ let UsersController = class UsersController {
     update(token, userDto) {
         return this.userService.update(token, userDto);
     }
+    delete(id) {
+        return this.userService.delete(id);
+    }
 };
 exports.UsersController = UsersController;
 __decorate([
@@ -65,6 +68,13 @@ __decorate([
     __metadata("design:paramtypes", [String, update_user_dto_1.UpdateUser]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "update", null);
+__decorate([
+    (0, common_1.Delete)(),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], UsersController.prototype, "delete", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])

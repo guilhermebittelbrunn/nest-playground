@@ -17,51 +17,70 @@ const common_1 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const users_entity_1 = require("./entities/users.entity");
 const typeorm_2 = require("typeorm");
+const bcrypt = require("bcrypt");
+const config_1 = require("@nestjs/config");
+const jwt_1 = require("@nestjs/jwt");
 let UsersService = class UsersService {
-    constructor(userRepository) {
+    constructor(userRepository, configService, jwtService) {
         this.userRepository = userRepository;
+        this.configService = configService;
+        this.jwtService = jwtService;
     }
     async findOne(id) {
         const user = await this.userRepository.findOne({ where: { id: id } });
+        const { password, ...userData } = user;
         if (!user) {
             throw new common_1.NotFoundException(`User ${id} not found`);
         }
-        return user;
+        return userData;
     }
     async create(userDto) {
-        const userWithTheSameEmail = await this.userRepository.findOne({
-            where: { email: userDto.email },
-        });
-        if (userWithTheSameEmail) {
-            throw new common_1.ConflictException(`e-mail already exists, try again`);
+        try {
+            const { password } = userDto;
+            const salt = await bcrypt.genSalt();
+            const hashedPassword = await bcrypt.hash(password, salt);
+            await this.userRepository.save({ ...userDto, password: hashedPassword });
+            return `User: ${userDto.name} successfully created`;
         }
-        await this.userRepository.save(userDto);
-        return `User: ${userDto.name} successfully created`;
+        catch (error) {
+            if (error.errno === 19) {
+                throw new common_1.ConflictException('E-mail already exists, try again');
+            }
+            throw new common_1.InternalServerErrorException(`Error to create user: ${error}`);
+        }
     }
     async login(userDto) {
-        const user = await this.userRepository.findOne({
-            where: {
-                email: userDto.email,
-                password: userDto.password,
-            },
-        });
-        if (!user) {
-            throw new common_1.BadRequestException(`Email or password incorrect`);
+        const { email, password } = userDto;
+        const user = await this.userRepository.findOneBy({ email });
+        if (user && (await bcrypt.compare(password, user.password))) {
+            const { id } = user;
+            const token = await this.jwtService.sign({ id });
+            return { token };
         }
-        return 'User logged!';
+        throw new common_1.BadRequestException(`Email or password incorrect`);
     }
     async update(token, userDto) {
         const idUser = JSON.parse(atob(token.split('.')[1])).id;
         const user = await this.userRepository.findOne(idUser);
         Object.assign(user, userDto);
         this.userRepository.save(user);
-        return 'User updated';
+        const { password, ...userData } = user;
+        return userData;
+    }
+    async delete(id) {
+        const removedElement = await this.userRepository.delete(id);
+        if (removedElement.affected === 0) {
+            throw new common_1.NotFoundException(`${id} not found`);
+        }
+        return `${id} successfully deleted`;
     }
 };
 exports.UsersService = UsersService;
 exports.UsersService = UsersService = __decorate([
     (0, common_1.Injectable)(),
     __param(0, (0, typeorm_1.InjectRepository)(users_entity_1.User)),
-    __metadata("design:paramtypes", [typeorm_2.Repository])
+    __metadata("design:paramtypes", [typeorm_2.Repository,
+        config_1.ConfigService,
+        jwt_1.JwtService])
 ], UsersService);
 //# sourceMappingURL=users.service.js.map

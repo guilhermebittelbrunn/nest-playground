@@ -3,11 +3,18 @@ import { Repository } from 'typeorm';
 import { CreateUser } from './dto/create-user.dto';
 import { LoginUser } from './dto/login-user.dto';
 import { UpdateUser } from './dto/update-user.dto';
+import { ConfigService } from '@nestjs/config';
+import { JwtService } from '@nestjs/jwt';
 export declare class UsersService {
     private userRepository;
-    constructor(userRepository: Repository<User>);
-    findOne(id: string): Promise<User>;
+    private configService;
+    private jwtService;
+    constructor(userRepository: Repository<User>, configService: ConfigService, jwtService: JwtService);
+    findOne(id: string): Promise<Partial<User>>;
     create(userDto: CreateUser): Promise<string>;
-    login(userDto: LoginUser): Promise<string>;
-    update(token: string, userDto: UpdateUser): Promise<string>;
+    login(userDto: LoginUser): Promise<{
+        token: string;
+    }>;
+    update(token: string, userDto: UpdateUser): Promise<Partial<User>>;
+    delete(id: string): Promise<string>;
 }

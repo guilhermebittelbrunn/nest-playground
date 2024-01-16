@@ -2,7 +2,7 @@ import {
   IsEmail,
   IsNotEmpty,
   IsOptional,
-  Matches,
+  IsStrongPassword,
   MaxLength,
   MinLength,
 } from 'class-validator';
@@ -13,16 +13,22 @@ export class CreateUser {
   @MaxLength(100)
   name: string;
 
-  @MinLength(4)
   @MaxLength(20)
+  // @IsStrongPassword(
+  //   {
+  //     // minLength: 8,
+  //     // minNumbers: 2,
+  //     // minLowercase: 1,
+  //     // minUppercase: 1,
+  //     // minSymbols: 1,
+  //   },
+  //   { message: 'Password too weak, please try other password' },
+  // )
   password: string;
 
   @MaxLength(40)
   @IsEmail()
   email: string;
-
-  @Matches('password')
-  confirmPassword: string;
 
   @IsOptional()
   role?: UserRole;

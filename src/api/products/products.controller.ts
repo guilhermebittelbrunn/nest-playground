@@ -20,10 +20,7 @@ export class ProductsController {
 
   @Get()
   findAll(@Query() productQueryDto: GetProductsByQuery): Promise<Product[]> {
-    if (Object.keys(productQueryDto).length > 0) {
-      return this.productService.findByQuery(productQueryDto);
-    }
-    return this.productService.findAll();
+    return this.productService.findAll(productQueryDto);
   }
 
   @Get(':id')

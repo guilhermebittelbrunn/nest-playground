@@ -21,7 +21,6 @@ __decorate([
     __metadata("design:type", String)
 ], CreateUser.prototype, "name", void 0);
 __decorate([
-    (0, class_validator_1.MinLength)(4),
     (0, class_validator_1.MaxLength)(20),
     __metadata("design:type", String)
 ], CreateUser.prototype, "password", void 0);
@@ -30,10 +29,6 @@ __decorate([
     (0, class_validator_1.IsEmail)(),
     __metadata("design:type", String)
 ], CreateUser.prototype, "email", void 0);
-__decorate([
-    (0, class_validator_1.Matches)('password'),
-    __metadata("design:type", String)
-], CreateUser.prototype, "confirmPassword", void 0);
 __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
