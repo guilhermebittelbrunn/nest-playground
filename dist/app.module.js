@@ -15,6 +15,7 @@ const users_module_1 = require("./api/users/users.module");
 const users_entity_1 = require("./api/users/entities/users.entity");
 const orders_module_1 = require("./api/orders/orders.module");
 const config_1 = require("@nestjs/config");
+const auth_module_1 = require("./api/auth/auth.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -35,6 +36,7 @@ exports.AppModule = AppModule = __decorate([
             products_module_1.ProductsModule,
             users_module_1.UsersModule,
             orders_module_1.OrdersModule,
+            auth_module_1.AuthModule,
         ],
     })
 ], AppModule);
