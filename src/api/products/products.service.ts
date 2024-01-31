@@ -15,7 +15,6 @@ export class ProductsService {
   async findAll(productQueryDto: GetProductsByQuery): Promise<Product[]> {
     const { search, status, price } = productQueryDto;
     const query = this.productRepository.createQueryBuilder('product');
-
     if (search) {
       query.andWhere('product.title LIKE :search', { search: `%${search}%` });
     }

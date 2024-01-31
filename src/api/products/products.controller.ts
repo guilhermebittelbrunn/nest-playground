@@ -7,13 +7,16 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { Product } from './entities/product.entity';
 import { CreateProduct } from './dto/create-product.dto';
 import { GetProductsByQuery } from './dto/get-products-by-query.dto';
 import { UpdateProduct } from './dto/update-product.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
+@UseGuards(AuthGuard)
 @Controller('products')
 export class ProductsController {
   constructor(private productService: ProductsService) {}

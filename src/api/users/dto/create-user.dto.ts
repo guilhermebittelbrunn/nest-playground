@@ -13,7 +13,8 @@ export class CreateUser {
   @MaxLength(100)
   name: string;
 
-  @MaxLength(20)
+  @MaxLength(30)
+  @MinLength(4)
   // @IsStrongPassword(
   //   {
   //     // minLength: 8,
